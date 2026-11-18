@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+[ "${RENEWED_LINEAGE:-}" = "/etc/letsencrypt/live/iot.hengyanghk.com" ] || {
+    docker exec hengyang-nginx nginx -s reload
+    exit 0
+}
+certdir=/opt/hengyang_platform/certs
+install -m 0644 "$RENEWED_LINEAGE/fullchain.pem" "$certdir/server.pem"
+install -o 1000 -g 1000 -m 0600 "$RENEWED_LINEAGE/privkey.pem" "$certdir/server.key"
+docker exec hengyang-emqx emqx ctl listeners restart ssl:default
+docker exec hengyang-nginx nginx -s reload

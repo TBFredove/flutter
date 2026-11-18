@@ -1,0 +1,7 @@
+dependencies:
+  flutter:
+    sdk: flutter
+  # MQTT 客户端库（支持 Web 和移动端）
+  mqtt_client: ^10.4.0
+  # HTTP 请求库（用于调用 Go 后端的下发指令接口）
+  http: ^1.2.0
